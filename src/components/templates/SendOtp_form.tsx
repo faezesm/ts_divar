@@ -16,7 +16,7 @@ const SendOtp_form: React.FC<Props> = ({ setStep, mobile, setMobile }) => {
     if (mobileRegex) {
       const { res, error } = await sendOtp(mobile);
       if (res) setStep(2)
-      if(error) console.log(error.message)
+      if(error) console.log(error)
     }
   };
 
