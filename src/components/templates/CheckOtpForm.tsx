@@ -1,6 +1,5 @@
 import React from "react";
 import { checkOtpCode } from "../../services/auth";
-import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../utils/cookies";
 
 interface Props {
@@ -11,12 +10,12 @@ interface Props {
 }
 
 const CheckOtpForm: React.FC<Props> = ({ mobile, code, setCode, setStep }) => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (code.length === 5) {
-      const { res, error } = await checkOtpCode(mobile, code);
+      const { res} = await checkOtpCode(mobile, code);
       setCookie(res?.data)
       
       // navigate("/home")
