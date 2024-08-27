@@ -1,6 +1,9 @@
 import React from "react";
 import { checkOtpCode } from "../../services/auth";
 import { setCookie } from "../../utils/cookies";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getProfile } from "../../services/user";
 
 interface Props {
   setCode: (code: string) => void;
@@ -10,16 +13,20 @@ interface Props {
 }
 
 const CheckOtpForm: React.FC<Props> = ({ mobile, code, setCode, setStep }) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
+  const queryKey = ["profile"];
+  const queryFn = () => getProfile();
+  const { refetch } = useQuery({ queryKey, queryFn });
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (code.length === 5) {
-      const { res} = await checkOtpCode(mobile, code);
-      setCookie(res?.data)
-      
-      // navigate("/home")
-      }
+      const { res } = await checkOtpCode(mobile, code);
+      setCookie(res?.data);
+      navigate("/");
+      refetch()
+    }
   };
 
   return (
